@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
+import {connect} from "react-redux";
 import logo from './logo.svg';
 import './App.css';
+import {fetchBeer} from "./actions/fetchBeer.action";
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchBeer: () => dispatch(fetchBeer())
+  };
+};
 
 class App extends Component {
 
   componentDidMount(){
-console.log('call the action!!!')
+    this.props.fetchBeer();
   }
 
   render() {
@@ -23,4 +31,4 @@ console.log('call the action!!!')
   }
 }
 
-export default App;
+export default connect(null,mapDispatchToProps)(App);
