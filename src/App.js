@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import logo from './logo.svg';
 import './App.css';
-import {fetchBeer} from "./actions/fetchBeer.action";
+import { fetchBeer } from "./actions/fetchBeer.action";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -10,13 +10,20 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+const mapStateToProps = state => {
+  return { beerArray: state.beerArray };
+};
+
 class App extends Component {
 
-  componentDidMount(){
+  componentDidMount() {
     this.props.fetchBeer();
   }
 
   render() {
+
+    console.log('this.props.beerArray: ', this.props.beerArray);
+
     return (
       <div className="App">
         <header className="App-header">
@@ -31,4 +38,4 @@ class App extends Component {
   }
 }
 
-export default connect(null,mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
