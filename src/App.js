@@ -20,9 +20,21 @@ class App extends Component {
     this.props.fetchBeer();
   }
 
+  showThreeLimitedBeers() {
+    let arrayToAnalyse = [...this.props.beerArray]
+    if (arrayToAnalyse.length !== 0) {
+      let arrayToDisplay = arrayToAnalyse
+        .sort(function (a, b) {
+          return a.quantity_in_stock - b.quantity_in_stock;
+        })
+        .slice(0, 3);
+      console.log('arrayToDisplay: ', arrayToDisplay)
+      return arrayToDisplay.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)
+    }
+  }
+
   render() {
 
-    console.log('this.props.beerArray: ', this.props.beerArray);
 
     return (
       <div className="App">
@@ -33,6 +45,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        {this.showThreeLimitedBeers()}
         {this.props.beerArray.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)}
       </div>
     );
