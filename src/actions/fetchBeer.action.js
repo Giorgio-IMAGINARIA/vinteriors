@@ -44,7 +44,7 @@ function fetchBeerFromAPI() {
     };
 };
 
-function dispatchBeer(arrayToDispatch) {
+export function dispatchBeer(arrayToDispatch) {
     return { type: FETCH_BEER, payload: arrayToDispatch };
 };
 
