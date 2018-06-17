@@ -15,8 +15,7 @@ const styles = theme => ({
         height: 600
     },
     media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
+        height: 330
     },
     actions: {
         display: 'flex',
@@ -36,6 +35,9 @@ const styles = theme => ({
     },
     wrapper: {
         marginBottom: '20px'
+    },
+    image: {
+        width:320
     }
 });
 
@@ -68,11 +70,9 @@ class RecipeReviewCard extends React.Component {
                         title={beer}
                         subheader={brewery}
                     />
-                    <CardMedia
-                        className={classes.media}
-                        src={imageSrc}
-                        title="Contemplative Reptile"
-                    />
+                    <CardMedia className={classes.media}>
+                        <img className={classes.image} alt={beer} src={imageSrc} />
+                    </CardMedia>
                     <CardContent>
                         <Typography component="p">Alcohol: {alcohol}%</Typography>
                         <Typography component="p">Review: {review} out of 5</Typography>
