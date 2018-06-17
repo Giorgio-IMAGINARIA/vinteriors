@@ -47,7 +47,13 @@ class App extends Component {
             imageSrc={item.image_url}
             beer={item.beer}
             alcohol={item["alcohol_%"]}
-            review={item["average_review_rating_0_to_5"]}
+            review={item.average_review_rating_0_to_5}
+            brewery={item.brewery}
+            numberOfReviews={item.number_of_reviews}
+            price={item.price}
+            quantityInStock={item.quantity_in_stock}
+            size={item.size}
+            sku={item.sku}
           />)
     }
   }

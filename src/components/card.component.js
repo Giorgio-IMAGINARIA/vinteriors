@@ -12,7 +12,7 @@ import red from '@material-ui/core/colors/red';
 const styles = theme => ({
     card: {
         width: 320,
-        height: 320
+        height: 600
     },
     media: {
         height: 0,
@@ -47,14 +47,26 @@ class RecipeReviewCard extends React.Component {
     };
 
     render() {
-        const { classes, imageSrc, alcohol, review, beer } = this.props;
+        const {
+            classes,
+            imageSrc,
+            beer,
+            alcohol,
+            review,
+            brewery,
+            numberOfReviews,
+            price,
+            quantityInStock,
+            size,
+            sku
+        } = this.props;
         return (
             <div className={classes.wrapper}>
                 <Card className={classes.card}>
                     <CardHeader
                         avatar={<Avatar aria-label="Beer" className={classes.avatar}>{beer.substring(0, 1)}</Avatar>}
                         title={beer}
-                        subheader="September 14, 2016"
+                        subheader={brewery}
                     />
                     <CardMedia
                         className={classes.media}
@@ -64,6 +76,11 @@ class RecipeReviewCard extends React.Component {
                     <CardContent>
                         <Typography component="p">Alcohol: {alcohol}%</Typography>
                         <Typography component="p">Review: {review} out of 5</Typography>
+                        <Typography component="p">Review nr.: {numberOfReviews}</Typography>
+                        <Typography component="p">Price: {price}</Typography>
+                        <Typography component="p">In stock : {quantityInStock}</Typography>
+                        <Typography component="p">Size : {size}</Typography>
+                        <Typography component="p">SKU : {sku}</Typography>
                     </CardContent>
                 </Card>
             </div>
