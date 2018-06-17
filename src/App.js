@@ -1,10 +1,28 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 import { connect } from "react-redux";
 import './App.css';
 import { fetchBeer } from "./actions/fetchBeer.action";
 import AppBar from "./components/appBar.component";
 import SingleLineGridList from "./components/singleLineGridList.component";
 import Card from "./components/card.component";
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  }
+});
 
 
 
@@ -20,12 +38,16 @@ const mapStateToProps = state => {
 
 class App extends Component {
 
+  state = {
+    stock: 'des'
+  };
+
   constructor(props) {
     super(props);
     this.props.fetchBeer();
   }
 
-  showSelectedBeers() {
+  showSelectedBeers = () => {
     let arrayToAnalyse = [...this.props.beerArray];
     if (arrayToAnalyse.length !== 0) {
       let arrayToDisplay = arrayToAnalyse
@@ -36,11 +58,16 @@ class App extends Component {
     }
   }
 
-  showCards() {
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  showCards = () => {
     let arrayToAnalyse = [...this.props.beerArray];
     if (arrayToAnalyse.length !== 0) {
-      // return  this.props.beerArray.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)
+      const multiplier = this.state.stock === 'asc' ? 1 : -1;
       return arrayToAnalyse
+        .sort((a, b) => (a.quantity_in_stock - b.quantity_in_stock) * multiplier)
         .filter(obj => obj.quantity_in_stock !== 0)
         .map((item, index) =>
           <Card
@@ -59,7 +86,8 @@ class App extends Component {
     }
   }
 
-  render() {
+  render = () => {
+    const { classes } = this.props;
     return (
       <div className="App">
         <AppBar />
@@ -71,6 +99,22 @@ class App extends Component {
         <p className="App-intro">
           Our broad range of booze for Her and Him - Now with a London flair!<br />Our competitors online struggle to catch up - give us a try ;)
         </p>
+        <form className={classes.root} autoComplete="off">
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="price-selector">Qt. stock</InputLabel>
+            <Select
+              value={this.state.stock}
+              onChange={this.handleChange}
+              inputProps={{
+                name: 'stock',
+                id: 'stock-selector',
+              }}
+            >
+              <MenuItem value={'asc'}>Ascending</MenuItem>
+              <MenuItem value={'des'}>Descending</MenuItem>
+            </Select>
+          </FormControl>
+        </form>
         <div className="card-wrapper">
           {this.showCards()}
         </div>
@@ -79,4 +123,8 @@ class App extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(App));
