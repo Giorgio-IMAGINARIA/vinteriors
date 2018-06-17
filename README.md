@@ -1,6 +1,14 @@
 QUICK OVERVIEW
 
-1) build and run the project with yarn start, after that go to http://localhost:3000/ and check the project
+1) Clone the project.
+
+2) cd to the vinterior directory.
+
+3) Build the node_modules by typing and running yarn.
+
+4) Run the project with yarn start
+
+5) A browser page should open at http://localhost:3000/
 
 2) Test the project by running yarn test
 
