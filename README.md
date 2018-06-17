@@ -1,3 +1,114 @@
+QUICK OVERVIEW
+
+1) build and run the project with yarn start, after that go to http://localhost:3000/ and check the project
+
+2) Test the project by running yarn test
+
+
+DESCRIPTION
+
+The project is written in React with Redux and uses the Material UI library.
+
+Follows the description of the most interesting topics touched by the app.
+
+
+-App.js-
+
+It's the main page of the app. It gets the props from the redux store through Connect and passes props to the imported components.
+
+It shows a selection of the least available beers (3 items) and of all the available beers. In that case a filter is available to sort the beers by availability through a filter.
+
+  showCards = () => {
+    let arrayToAnalyse = [...this.props.beerArray];
+    if (arrayToAnalyse.length !== 0) {
+      const multiplier = this.state.stock === 'asc' ? 1 : -1;
+      return arrayToAnalyse
+        .sort((a, b) => (a.quantity_in_stock - b.quantity_in_stock) * multiplier)
+        .filter(obj => obj.quantity_in_stock !== 0)
+        .map((item, index) =>
+          <Card
+            key={index}
+            imageSrc={item.image_url}
+            beer={item.beer}
+            alcohol={item["alcohol_%"]}
+            review={item.average_review_rating_0_to_5}
+            brewery={item.brewery}
+            numberOfReviews={item.number_of_reviews}
+            price={item.price}
+            quantityInStock={item.quantity_in_stock}
+            size={item.size}
+            sku={item.sku}
+          />)
+    }
+  }
+
+  It can be seen that the array containing all the beers is first copied, then there's a check to see if it's empty, then, based on the filter a multiplier (1/-1) is set. Later the array is sorted accordingly, filtered to avoid not avilable items, then mapped to create an array of cards to which different props are passed.
+
+
+  -fetchBeer.action.js-
+
+  This is the action called in the App.js constructor (thus before the component is mounted). What is interesting here is that the list of beers is gotten from the API, but the imsge src points to a web page instead of directly to a picture file. In this case there's another call to that specific page where the whole document is grabbed, then the node containing the picture is targeted, then the final src path is estracted and passed to the beerArray to dispatch. These operations can be seen below.
+
+  function getHTML(url, callback, arrayPassed, index) {
+    // Feature detection
+    if (!window.XMLHttpRequest) return;
+    // Create new request
+    var xhr = new XMLHttpRequest();
+    // Setup callback
+    xhr.onload = function () {
+        if (callback && typeof (callback) === 'function') {
+            callback(this.responseXML, arrayPassed, index);
+        }
+    }
+    // Get the HTML
+    xhr.open('GET', url);
+    xhr.responseType = 'document';
+    xhr.send();
+};
+
+function fetchBeerFromAPI() {
+    let address = `http://demo8465751.mockable.io/products`;
+    return dispatch => {
+        return fetch(address, { method: 'GET' })
+            .then(response => response.json())
+            .then(arrayRetrieved => {
+                let i;
+                for (i = 0; i < arrayRetrieved.length; i++) {
+                    const pageUrl = arrayRetrieved[i].image_url;
+                    let newSrc;
+                    getHTML(pageUrl, function (response, arrayToProcess, j) {
+                        const documentFound = response.documentElement;
+                        const canOfBeerSrc = (documentFound && documentFound.querySelector('#ProductPhotoImg')) ? documentFound.querySelector('#ProductPhotoImg').src : 'http://via.placeholder.com/320x300';
+                        newSrc = canOfBeerSrc
+                        arrayToProcess[j].image_url = newSrc;
+                        const arrayToDispatch = [...arrayToProcess];
+                        dispatch(dispatchBeer(arrayToDispatch));
+                    }, arrayRetrieved, i);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+};
+
+In case the picture is missing in the original page a placeholder is passed instead.
+
+
+-fetchBeer.action.test.js-
+
+This is the only test and with more time I would have liked to create more of them. The test just check that an array is correctly dispatched when the action is called.
+
+
+WHAT I WOULD HAVE DONE WITH MORE TIME
+
+I would have made the action and specifically the creation of the beer array more efficient. different dispatch actions are actually fired during the for loop, a different strategy would have involved a generator with a yeld at the end of the queries to the picture src paths end points.
+Also I would have curated the overall style of App and made it even more modular.
+Obviously I should have written more unit tests and an e2e test.
+
+
+ORIGINAL CLI README ABOVE
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
