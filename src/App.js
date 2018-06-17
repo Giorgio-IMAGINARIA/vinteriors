@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import logo from './logo.svg';
 import './App.css';
 import { fetchBeer } from "./actions/fetchBeer.action";
 import AppBar from "./components/appBar.component";
+import SingleLineGridList from "./components/singleLineGridList.component";
 
 
 const mapDispatchToProps = dispatch => {
@@ -41,10 +41,8 @@ class App extends Component {
     return (
       <div className="App">
       <AppBar/>
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
+      <div className="App-spacer"/>
+      <SingleLineGridList/>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>

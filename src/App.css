@@ -21,8 +21,14 @@
 .App-intro {
   font-size: large;
 }
+.App-spacer{
+  width: 100%;
+  height: 64px;
+}
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@media only screen and (max-width: 599px) {
+  .App-spacer{
+    width: 100%;
+    height: 56px;
+  }
 }
