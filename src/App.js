@@ -33,7 +33,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <img src={"//cdn.shopify.com/s/files/1/1035/1939/products/image_4361bf20-da35-4552-9c41-ea8d2d4349d2_1024x1024.jpg?v=1519390891"}/>
+        {this.props.beerArray.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)}
       </div>
     );
   }
