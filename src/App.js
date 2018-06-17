@@ -4,6 +4,8 @@ import './App.css';
 import { fetchBeer } from "./actions/fetchBeer.action";
 import AppBar from "./components/appBar.component";
 import SingleLineGridList from "./components/singleLineGridList.component";
+import Card from "./components/card.component";
+
 
 
 const mapDispatchToProps = dispatch => {
@@ -23,7 +25,7 @@ class App extends Component {
   }
 
   showSelectedBeers() {
-    let arrayToAnalyse = [...this.props.beerArray]
+    let arrayToAnalyse = [...this.props.beerArray];
     if (arrayToAnalyse.length !== 0) {
       let arrayToDisplay = arrayToAnalyse
         .sort((a, b) => a.quantity_in_stock - b.quantity_in_stock)
@@ -33,9 +35,17 @@ class App extends Component {
     }
   }
 
+  showCards() {
+    let arrayToAnalyse = [...this.props.beerArray];
+    if (arrayToAnalyse.length !== 0) {
+      // return  this.props.beerArray.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)
+      return arrayToAnalyse
+        .filter(obj => obj.quantity_in_stock !== 0)
+        .map((item, index) => <Card key={index} src={item.image_url} alt={item.beer} alcohol={item["alcohol_%"]} review={item["average_review_rating_0_to_5"]} />)
+    }
+  }
+
   render() {
-
-
     return (
       <div className="App">
         <AppBar />
@@ -46,9 +56,10 @@ class App extends Component {
         {this.showSelectedBeers()}
         <p className="App-intro">
           Our broad range of booze for Her and Him - Now with a London flair!<br />Our competitors online struggle to catch up - give us a try ;)
-
         </p>
-        {this.props.beerArray.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)}
+        <div className="card-wrapper">
+          {this.showCards()}
+        </div>
       </div>
     );
   }
