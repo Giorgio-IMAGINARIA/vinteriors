@@ -70,7 +70,8 @@ class RecipeReviewCard extends React.Component {
                         title={beer}
                         subheader={brewery}
                     />
-                    <CardMedia className={classes.media}>
+                    {/* https://github.com/mui-org/material-ui/issues/11675 */}
+                    <CardMedia className={classes.media} src={imageSrc}>
                         <img className={classes.image} alt={beer} src={imageSrc} />
                     </CardMedia>
                     <CardContent>

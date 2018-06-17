@@ -20,7 +20,8 @@ const mapStateToProps = state => {
 
 class App extends Component {
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     this.props.fetchBeer();
   }
 
