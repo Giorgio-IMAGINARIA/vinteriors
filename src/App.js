@@ -41,7 +41,14 @@ class App extends Component {
       // return  this.props.beerArray.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)
       return arrayToAnalyse
         .filter(obj => obj.quantity_in_stock !== 0)
-        .map((item, index) => <Card key={index} src={item.image_url} alt={item.beer} alcohol={item["alcohol_%"]} review={item["average_review_rating_0_to_5"]} />)
+        .map((item, index) =>
+          <Card
+            key={index}
+            imageSrc={item.image_url}
+            beer={item.beer}
+            alcohol={item["alcohol_%"]}
+            review={item["average_review_rating_0_to_5"]}
+          />)
     }
   }
 
