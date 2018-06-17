@@ -30,8 +30,22 @@ class App extends Component {
           return a.quantity_in_stock - b.quantity_in_stock;
         })
         .slice(0, 3);
-      console.log('arrayToDisplay: ', arrayToDisplay)
+      // console.log('arrayToDisplay: ', arrayToDisplay)
       return arrayToDisplay.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)
+    }
+  }
+
+  showSelectedBeers(){
+    let arrayToAnalyse = [...this.props.beerArray]
+    if (arrayToAnalyse.length !== 0) {
+      let arrayToDisplay = arrayToAnalyse
+        .sort(function (a, b) {
+          return a.quantity_in_stock - b.quantity_in_stock;
+        })
+        .slice(0, 3);
+      // console.log('arrayToDisplay: ', arrayToDisplay)
+      return <SingleLineGridList beerToDisplay={arrayToDisplay}/>
+      // return arrayToDisplay.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)
     }
   }
 
@@ -42,7 +56,7 @@ class App extends Component {
       <div className="App">
       <AppBar/>
       <div className="App-spacer"/>
-      <SingleLineGridList/>
+      {this.showSelectedBeers()}
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>

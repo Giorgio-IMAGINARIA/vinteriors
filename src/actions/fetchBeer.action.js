@@ -32,7 +32,6 @@ function fetchBeerFromAPI() {
                         const documentFound = response.documentElement;
                         const canOfBeerSrc = (documentFound && documentFound.querySelector('#ProductPhotoImg')) ? documentFound.querySelector('#ProductPhotoImg').src : null;
                         newSrc = canOfBeerSrc
-                        console.log('canOfBeerSrc: ', canOfBeerSrc)
                         arrayToProcess[j].image_url = newSrc;
                         const arrayToDispatch = [...arrayToProcess];
                         dispatch(dispatchBeer(arrayToDispatch));
