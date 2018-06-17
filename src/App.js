@@ -22,30 +22,14 @@ class App extends Component {
     this.props.fetchBeer();
   }
 
-  showThreeLimitedBeers() {
+  showSelectedBeers() {
     let arrayToAnalyse = [...this.props.beerArray]
     if (arrayToAnalyse.length !== 0) {
       let arrayToDisplay = arrayToAnalyse
-        .sort(function (a, b) {
-          return a.quantity_in_stock - b.quantity_in_stock;
-        })
+        .sort((a, b) => a.quantity_in_stock - b.quantity_in_stock)
+        .filter(obj => obj.quantity_in_stock !== 0)
         .slice(0, 3);
-      // console.log('arrayToDisplay: ', arrayToDisplay)
-      return arrayToDisplay.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)
-    }
-  }
-
-  showSelectedBeers(){
-    let arrayToAnalyse = [...this.props.beerArray]
-    if (arrayToAnalyse.length !== 0) {
-      let arrayToDisplay = arrayToAnalyse
-        .sort(function (a, b) {
-          return a.quantity_in_stock - b.quantity_in_stock;
-        })
-        .slice(0, 3);
-      // console.log('arrayToDisplay: ', arrayToDisplay)
-      return <SingleLineGridList beerToDisplay={arrayToDisplay}/>
-      // return arrayToDisplay.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)
+      return <SingleLineGridList beerToDisplay={arrayToDisplay} />
     }
   }
 
@@ -54,13 +38,16 @@ class App extends Component {
 
     return (
       <div className="App">
-      <AppBar/>
-      <div className="App-spacer"/>
-      {this.showSelectedBeers()}
+        <AppBar />
+        <div className="App-spacer" />
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          Limited availability beers below - Check them out!
         </p>
-        {this.showThreeLimitedBeers()}
+        {this.showSelectedBeers()}
+        <p className="App-intro">
+          Our broad range of booze for Her and Him - Now with a London flair!<br />Our competitors online struggle to catch up - give us a try ;)
+
+        </p>
         {this.props.beerArray.map((item, index) => <img key={index} src={item.image_url} alt={item.beer} />)}
       </div>
     );

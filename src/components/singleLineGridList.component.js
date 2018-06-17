@@ -38,6 +38,7 @@ function SingleLineGridList(props) {
                         <img src={tile.image_url} alt={tile.beer} />
                         <GridListTileBar
                             title={tile.beer}
+                            subtitle={<span>only: {tile.quantity_in_stock} left</span>}
                             classes={{
                                 root: classes.titleBar,
                                 title: classes.title,
